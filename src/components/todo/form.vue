@@ -2,6 +2,8 @@
   <div>
     <h1>{{ question }}</h1>
     <p class="errorText" v-if="error"> {{ error }} <p>
+    <p>Tasks: {{ this.toDoArr.length }}</p>
+    <p>Completed: {{ completed }}</p>
     <form>
       <input v-model="toDoInput" placeholder="" />
       <button v-on:click="handleSubmit">Submit</button>
@@ -11,7 +13,7 @@
       <ul>
         <!-- To do go here.. -->
         <li v-for="(element, index) in toDoArr" v-bind:key="index">
-          <input type="checkbox" v-model="element.completed" v-on:click="markDone" v-bind:id="index"> {{ element.item }}
+          <input type="checkbox" v-model="element.completed" v-on:click="markDone" v-bind:id="index"> {{ element.item }} <br />
         </li>
       </ul>
     </div>
@@ -25,7 +27,8 @@
         error: "",
         question: "What would you like to get done today?",
         toDoInput: "",
-        toDoArr: []
+        toDoArr: [],
+        completed: 0
       }
     },
     created() {
@@ -50,11 +53,17 @@
       },
       clearList: function(event) {
         event.preventDefault();
+        this.completed = 0;
         localStorage.removeItem("toDos");
         this.toDoArr = [];
       },
       markDone: function(event) {
-        console.log(event.path);
+        if( event.path[0].checked == true ) { 
+          this.completed++ 
+        } else { 
+          this.completed-- 
+        }
+        
         this.toDoArr[event.target.id] = {
           item: this.toDoArr[event.target.id].item,
           completed : event.path[0].checked
