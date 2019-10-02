@@ -58,7 +58,7 @@
         this.toDoArr = [];
       },
       markDone: function(event) {
-        if( event.path[0].checked == true ) { 
+        if( event.target.checked == true ) { 
           this.completed++ 
         } else { 
           this.completed-- 
@@ -66,7 +66,7 @@
         
         this.toDoArr[event.target.id] = {
           item: this.toDoArr[event.target.id].item,
-          completed : event.path[0].checked
+          completed : event.target.checked
         };
 
         this.writeToStorage();
